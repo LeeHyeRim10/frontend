@@ -9,15 +9,33 @@ import HeaderBar from './no2_components/layout/HeaderBar'
 import SiderBar from './no2_components/layout/SiderBar'
 
 import styled from 'styled-components'
+import LoginPage from './no1_pages/user/LoginPage'
+import RegisterPage from './no1_pages/user/RegisterPage'
+
+const initState = [
+  {id : 1, username: "ttt", password : "1111"},
+  {id : 1, username: "qqq", password : "1111"},
+  {id : 1, username: "www", password : "1111"},
+  {id : 1, username: "eee", password : "1111"},
+]
+
+const initMode ={
+  isLogin : false, username : ""
+}
 
 function App() {
 
+  const [users, setUsers] = useState(initState);
+  const [loginMD, setLoginMD] = useState(initMode);
   const [mobileMenu, setMobileMenu] = useState(false)
+  
 
   return (
     <BrowserRouter>
-
+      {console.log(users)}
       <HeaderBar
+        loginMD={loginMD}
+        setLoginMD={setLoginMD}
         mobileMenu={mobileMenu}
         setMobileMenu={setMobileMenu}
       />
@@ -31,6 +49,8 @@ function App() {
 
         <Content>
           <Routes>
+            <Route path="/login" element={<LoginPage users={users} setLoginMD={setLoginMD} />} />
+            <Route path="/register" element={<RegisterPage setUsers={setUsers} />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/todo" element={<TodoPage />} />
             <Route path="/employee" element={<EmployeePage />} />

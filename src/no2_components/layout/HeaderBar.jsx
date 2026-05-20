@@ -1,7 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router-dom'
 
-const HeaderBar = ({ mobileMenu, setMobileMenu }) => {
+const HeaderBar = ({loginMD, setLoginMD}) => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setLoginMD(prev => (
+      {...prev, isLogin: false, username: ''}
+    ))
+    alert("로그아웃 성공 ")
+    navigate("/login")
+  }
+
   return (
     <Container>
 
@@ -14,14 +26,23 @@ const HeaderBar = ({ mobileMenu, setMobileMenu }) => {
         </MenuButton>
 
         <Logo>
-          Logo
+          CRUD PROJECT
         </Logo>
 
       </LeftBox>
 
       <RightBox>
-        <HeaderButton>로그인</HeaderButton>
-        <HeaderButton>회원가입</HeaderButton>
+        {loginMD.isLogin ? // true
+          <div>
+            <HeaderButton>{loginMD.username}님</HeaderButton>  
+            <HeaderButton onClick={handleLogout}>로그아웃</HeaderButton>  
+          </div>
+          : // false
+          <div>
+            <HeaderButton onClick={()=>navigate("/login")}>로그인</HeaderButton>
+            <HeaderButton onClick={()=>navigate("/register")}>회원가입</HeaderButton>
+          </div>
+        }
       </RightBox>
 
     </Container>
@@ -67,10 +88,11 @@ const RightBox = styled.div`
 `
 
 const HeaderButton = styled.button`
-  padding: 8px 14px;
+  padding: 8px 14px ;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  margin : 3px;
 
   &:hover {
     opacity: 0.9;
