@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components';
+import { EmployeeContext } from '../../no0_context/EmployeeContext';
 
-const EmployeeTable = ({state}) => {
-    const {emp} = state ;
+const EmployeeTable = () => {
+
+    const {state} = useContext(EmployeeContext);
+    const {emp} = state;
+    //const {emp} = state ;
 
     return (
     <>
     <div>
         <table>
+            
             <tr>
                 {emp && Object.keys(emp).map(key => (
                     <th>{key}</th>

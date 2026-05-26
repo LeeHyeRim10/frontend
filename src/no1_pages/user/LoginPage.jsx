@@ -1,9 +1,9 @@
 import React from 'react'
 import LoginForm from '../../no2_components/user/LoginForm'
 
-const LoginPage = ({users, setLoginMD}) => {
+const LoginPage = ({state, }) => {
   return (
-    <LoginForm users={users} setLoginMD={setLoginMD}/>
+    <LoginForm/>
   )
 }
 

@@ -11,17 +11,9 @@ import SiderBar from './no2_components/layout/SiderBar'
 import styled from 'styled-components'
 import LoginPage from './no1_pages/user/LoginPage'
 import RegisterPage from './no1_pages/user/RegisterPage'
+import EmployeeProvider from './no0_context/EmployeeContext'
+import UserProvider from './no0_context/UserContext'
 
-const initState = [
-  {id : 1, username: "ttt", password : "1111"},
-  {id : 1, username: "qqq", password : "1111"},
-  {id : 1, username: "www", password : "1111"},
-  {id : 1, username: "eee", password : "1111"},
-]
-
-const initMode ={
-  isLogin : false, username : ""
-}
 
 function App() {
 
@@ -32,7 +24,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {console.log(users)}
+      {/* {console.log(users)} */}
       <HeaderBar
         loginMD={loginMD}
         setLoginMD={setLoginMD}
@@ -49,11 +41,17 @@ function App() {
 
         <Content>
           <Routes>
-            <Route path="/login" element={<LoginPage users={users} setLoginMD={setLoginMD} />} />
-            <Route path="/register" element={<RegisterPage setUsers={setUsers} />} />
+            <UserProvider>
+              <Route path="/login" element={<LoginPage/>} />
+              <Route path="/register" element={<RegisterPage/>} />
+            </UserProvider>
             <Route path="/" element={<HomePage />} />
             <Route path="/todo" element={<TodoPage />} />
-            <Route path="/employee" element={<EmployeePage />} />
+            <Route path="/employee" element={
+              <EmployeeProvider>
+                <EmployeePage />
+              </EmployeeProvider>
+              } />
           </Routes>
         </Content>
 

@@ -1,34 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components';
-
-const initEmpSt = [
-  {id : "1", name : "John", email : "testttt@tttt.com", job: "frontend", pay: 600},
-  {id : "2", name : "qqqq", email : "qqqq@tttt.com", job: "backend", pay: 600},
-  {id : "3", name : "wwww", email : "wwww@tttt.com", job: "db", pay: 600},
-  {id : "4", name : "eeee", email : "eeee@tttt.com", job: "ai", pay: 600}
-]
-
+import { EmployeeContext } from '../../no0_context/EmployeeContext';
 
 const initEmp = {
   id : '', name : '', email : '', job : '', pay : ''
 }
 
-const initState = {
-    empTable : initEmpSt,
-    emp : initEmp
-}
-
-const reduce = (state, action) => {
-    switch(action.type) {
-        case "change" :
-            const {name, value} = event.target ;
-            return{...state, emp: {...state.emp, [name] : value}}
-    }
-}
 
 
+const EmployeeRegist = () => {
+    console.log(">>>>>>>>>>>>>")
+    const {dispatch} = useContext(EmployeeContext);
 
-const EmployeeRegist = ({setState}) => {
     const [emp, setEmp] = useState(initEmp);
     const handleChange = (event) => {
         const {name, value} = event.target ;
@@ -38,14 +21,14 @@ const EmployeeRegist = ({setState}) => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        emp &&
-        setState(prev => (
-            {...prev, empTable: [...prev.empTable, {...emp, id: Date.now()}]}
-        ))
+        // emp &&
+        // setState(prev => ({
+        //     ...prev, selectedId : prev.empTable[prev.empTable.length-1].id
+        // }))
+        
+        const newId = Date.now().toString();
+        dispatch({type: 'register', payload:{newId, emp}})
         setEmp(initEmp)
-        setState(prev => ({
-            ...prev, selectedId : prev.empTable[prev.empTable.length-1].id
-        }))
     }
     return (
         <>

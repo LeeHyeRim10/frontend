@@ -6,9 +6,9 @@ const initState = {
     id : "", username : "", password : "", confirmPW : ""
 }
 
-const RegisterForm = ({setUsers}) => {
+const RegisterForm = () => {
 
-    const [user, setUser] = useState(initState);
+    const {state, dispatch} = useContext(initState)
     const navigate = useNavigate();
     const handleChange = (event) => {
     const {name, value} = event.target;
@@ -23,9 +23,10 @@ const RegisterForm = ({setUsers}) => {
             alert("비밀번호 일치하지 않음 >>>>>>>>>")
             return;
         }
-        setUsers(prev => (
-            [...prev, {id:user.id, username:user.username, password:user.password}]
-        ))
+        dispatch({type : "register", payload : {user}}) ;
+        // setUsers(prev => (
+        //     [...prev, {id:user.id, username:user.username, password:user.password}]
+        // ))
         navigate("/login")
     }
 

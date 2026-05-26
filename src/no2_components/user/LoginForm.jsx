@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, {  useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { UserContext } from '../../no0_context/UserContext'
 
 
 const initState = {username: "", password: ""}
 
-const LoginForm = ({ users, setLoginMD }) => {
-    const [user, setUser] = useState(initState);
+const LoginForm = () => {
+    const {state, dispatch} = useContext(initState)
     const navigate = useNavigate();
     const handleChange = (event) => {
         const {name,value} = event.target;
@@ -16,6 +17,7 @@ const LoginForm = ({ users, setLoginMD }) => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
+
         const loginUser = users.filter(item => (
             item.username === user.username
          && item.password === user.password
@@ -23,9 +25,11 @@ const LoginForm = ({ users, setLoginMD }) => {
 
         if(loginUser) {
             alert(loginUser.username + "님 로그인 성공")
-            setLoginMD(prev=> (
-                {...prev, isLogin : true, username : loginUser.username}
-            ))
+
+            dispatch({type:"login", payload:loginUser})
+            // setLoginMD(prev=> (
+            //     {...prev, isLogin : true, username : loginUser.username}
+            // ))
             navigate("/")
         }else {
             alert("아이디/비밀번호를 다시 입력해주세요")

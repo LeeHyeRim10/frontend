@@ -1,37 +1,91 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import EmployeeList from '../no2_components/employee/EmployeeList'
 import EmployeeTable from '../no2_components/employee/EmployeeTable'
 import EmployeeRegist from '../no2_components/employee/EmployeeRegist'
 import EmployeeUpdate from '../no2_components/employee/EmployeeUpdate'
 import styled from 'styled-components'
+import { EmployeeContext } from '../no0_context/EmployeeContext'
 
-const initEmpSt = [
-  {id : "1", name : "John", email : "testttt@tttt.com", job: "frontend", pay: 600},
-  {id : "2", name : "qqqq", email : "qqqq@tttt.com", job: "backend", pay: 600},
-  {id : "3", name : "wwww", email : "wwww@tttt.com", job: "db", pay: 600},
-  {id : "4", name : "eeee", email : "eeee@tttt.com", job: "ai", pay: 600}
-]
+// const initEmpSt = [
+//   {id : "1", name : "John", email : "testttt@tttt.com", job: "frontend", pay: 600},
+//   {id : "2", name : "qqqq", email : "qqqq@tttt.com", job: "backend", pay: 600},
+//   {id : "3", name : "wwww", email : "wwww@tttt.com", job: "db", pay: 600},
+//   {id : "4", name : "eeee", email : "eeee@tttt.com", job: "ai", pay: 600}
+// ]
 
-const initEmp = {
-  id : '', name : '', email : '', job : '', pay : null
-}
+// const initEmp = {
+//   id : '', name : '', email : '', job : '', pay : null
+// }
 
-const initState = {
-  empTable : initEmpSt,
-  emp : initEmp,
-  mode : '',
-  selectedId : ''
-}
+// const initState = {
+//   empTable : initEmpSt,
+//   emp : initEmp,
+//   mode : '',
+//   selectedId : ''
+// }
+
+// const reducer = (state, action) => {
+//   switch (action.type) {
+//     case "select":
+//       return {
+//         ...state,
+//         selectedId : action.payload
+//       }
+//     case "set_emp" : 
+//       return {
+//         ...state,
+//         emp : action.payload
+//       }
+//     case "register" :
+//       return {
+//         ...state,
+//         empTable : [
+//           ...state.empTable,
+//           {
+//             ...action.payload.emp,
+//             id : action.payload.newId
+//           }
+//         ]
+//       }
+//       case "update" :
+//         return {
+//           ...state,
+//           empTable : state.empTable.map(item => (
+//             item.id === action.payload.id ?
+//             action.payload : item
+//           ))
+//         }
+//       case "delete" :
+//         return {
+//           ...state,
+//           empTable : state.empTable.filter(item => (
+//             item.id !== state.selectedId
+//           ))
+//         }
+//       case "mode" :
+//         return {
+//           ...state,
+//           mode : action.payload
+//         }
+//       default: 
+//         return state ;
+//   }
+// }
 
 const EmployeePage = () => {
-  const [state, setState] = useState(initState);
-  const {empTable, emp, selectedId, mode} = state;
+  const {state, dispatch} = useContext(EmployeeContext);
+  const {selectedId, empTable, mode} = state ;
+
+  // const [state, dispatch] = useReducer(reducer, initState)
+  // const [state, setState] = useState(initState);
+  // const {empTable, emp, selectedId, mode} = state;
 
   useEffect(() => {
     selectedId &&
-    setState(prev => (
-      {...prev, emp: empTable.find(item => item.id === selectedId)}
-    ))
+    dispatch({type:"set_emp", payload: empTable.filter(item => item.id ===selectedId)[0]})
+    // setState(prev => (
+    //   {...prev, emp: empTable.find(item => item.id === selectedId)}
+    // ))
   }, [selectedId, empTable])
 
   const handleDelete = () => {
@@ -41,27 +95,32 @@ const EmployeePage = () => {
       return ;
     }
 
-    setState(prev => (
-      {...prev
-        , empTable: prev.empTable.filter(item => item.id !== selectedId)
-        , emp : initEmp
-        , selectedId : ""
-      }
-    ))
+    dispatch({type:"delete"})
+
+    // setState(prev => (
+    //   {...prev
+    //     , empTable: prev.empTable.filter(item => item.id !== selectedId)
+    //     , emp : initEmp
+    //     , selectedId : ""
+    //   }
+    // ))
   }
 
   return (
     <div>
-      <EmployeeList state={state} setState={setState}/>
+      <EmployeeList state={state} dispatch={dispatch}/>
       <EmployeeTable state={state}/>
       <div>
-        <Button onClick={() => setState(prev => ({...prev, mode: "regist"}))}>등록</Button>
-        <Button onClick={() => setState(prev => ({...prev, mode: "update"}))}>수정</Button>
-        <Button onClick={() => setState(prev => ({...prev, mode: "delete"}))}>삭제</Button>
+        <button onClick={() => dispatch({type: "mode", payload:"register"})}>등록</button>
+        <button onClick={() => dispatch({type: "mode", payload:"update"})}>수정</button>
+        <button onClick={() => dispatch({type: "mode", payload:"delete"})}>삭제</button>
+        {/* <Button onClick={() => setState(prev => ({...prev, mode: "regist"}))}>등록</Button> */}
+        {/* <Button onClick={() => setState(prev => ({...prev, mode: "update"}))}>수정</Button> */}
+        {/* <Button onClick={() => setState(prev => ({...prev, mode: "delete"}))}>삭제</Button> */}
       </div>
       {
-        mode === "regist" ? <EmployeeRegist setState={setState}/>
-        : mode === "update" ? <EmployeeUpdate emp={emp} setState={setState}/>
+        mode === "register" ? <EmployeeRegist/>
+        : mode === "update" ? <EmployeeUpdate/>
         : <Button onClick={handleDelete}>데이터 삭제 ?</Button>
       } 
       
