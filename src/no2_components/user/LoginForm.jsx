@@ -7,7 +7,8 @@ import { UserContext } from '../../no0_context/UserContext'
 const initState = {username: "", password: ""}
 
 const LoginForm = () => {
-    const {state, dispatch} = useContext(initState)
+    const {dispatch} = useContext(initState)
+
     const navigate = useNavigate();
     const handleChange = (event) => {
         const {name,value} = event.target;

@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../../no0_context/UserContext'
 
-const HeaderBar = ({loginMD, setLoginMD}) => {
+const HeaderBar = () => {
 
+  console.log(">>>>>>")
+  const {state, dispatch} = useContext(UserContext);
+  const {isLogin} = state ;
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    setLoginMD(prev => (
-      {...prev, isLogin: false, username: ''}
-    ))
+    dispatch({type:"logout"})
+    // setLoginMD(prev => (
+    //   {...prev, isLogin: false, username: ''}
+    // ))
     alert("로그아웃 성공 ")
     navigate("/login")
   }
@@ -32,9 +37,9 @@ const HeaderBar = ({loginMD, setLoginMD}) => {
       </LeftBox>
 
       <RightBox>
-        {loginMD.isLogin ? // true
+        {isLogin ? // true
           <div>
-            <HeaderButton>{loginMD.username}님</HeaderButton>  
+            <HeaderButton>{state.username}님</HeaderButton>  
             <HeaderButton onClick={handleLogout}>로그아웃</HeaderButton>  
           </div>
           : // false

@@ -23,6 +23,13 @@ const reducer = (state, action) => {
                 isLogin : true,
                 username : action.payload
             }
+        case "logout" : {
+            return {
+                ...state,
+                isLogin : false, 
+                username : ""
+            }
+        }
         case "register":
             return {
                 ...state,
@@ -36,12 +43,12 @@ const reducer = (state, action) => {
                 ]
             }
         default:
-            return ;
+            return state;
     }
 }
 
 const UserProvider = ({children}) => {
-    const {state, dispatch} = useReducer(reducer, initState);
+    const [state, dispatch] = useReducer(reducer, initState);
   return (
     <UserContext.Provider value = {{state, dispatch}}>
       {children}

@@ -16,27 +16,20 @@ import UserProvider from './no0_context/UserContext'
 
 
 function App() {
-
-  const [users, setUsers] = useState(initState);
-  const [loginMD, setLoginMD] = useState(initMode);
   const [mobileMenu, setMobileMenu] = useState(false)
   
 
   return (
     <BrowserRouter>
       {/* {console.log(users)} */}
-      <HeaderBar
-        loginMD={loginMD}
-        setLoginMD={setLoginMD}
-        mobileMenu={mobileMenu}
-        setMobileMenu={setMobileMenu}
-      />
+      <UserProvider>
+        <HeaderBar
+        />
+      </UserProvider>
 
       <Layout>
 
         <SiderBar
-          mobileMenu={mobileMenu}
-          setMobileMenu={setMobileMenu}
         />
 
         <Content>
