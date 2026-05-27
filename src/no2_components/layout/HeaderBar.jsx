@@ -5,8 +5,8 @@ import { UserContext } from '../../no0_context/UserContext'
 
 const HeaderBar = () => {
 
-  console.log(">>>>>>")
   const {state, dispatch} = useContext(UserContext);
+  const [mobileMenu, setMobileMenu] = useState(false);
   const {isLogin} = state ;
   const navigate = useNavigate();
 
@@ -39,7 +39,7 @@ const HeaderBar = () => {
       <RightBox>
         {isLogin ? // true
           <div>
-            <HeaderButton>{state.username}님</HeaderButton>  
+            <HeaderButton>{state.username?.username}님</HeaderButton>  
             <HeaderButton onClick={handleLogout}>로그아웃</HeaderButton>  
           </div>
           : // false

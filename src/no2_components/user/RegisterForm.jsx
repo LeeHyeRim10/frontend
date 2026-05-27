@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from '../../no0_context/UserContext';
@@ -10,6 +10,7 @@ const initState = {
 const RegisterForm = () => {
 
     const {state, dispatch} = useContext(UserContext);
+    const [user, setUser] = useState(initState);
 
     const navigate = useNavigate();
     const handleChange = (event) => {

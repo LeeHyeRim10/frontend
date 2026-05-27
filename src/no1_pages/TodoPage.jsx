@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
+import TodoTemplate from '../no2_components/todo/TodoTemplate'
+import TodoInsert from '../no2_components/todo/TodoInsert'
+import TodoList from '../no2_components/todo/TodoList'
+
 
 const TodoPage = () => {
+
+
   return (
-    <div>
-      TodoPage
-    </div>
+    <TodoTemplate>
+      <TodoInsert/>
+      <TodoList/>
+    </TodoTemplate>
   )
 }
 

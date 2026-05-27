@@ -13,42 +13,41 @@ import LoginPage from './no1_pages/user/LoginPage'
 import RegisterPage from './no1_pages/user/RegisterPage'
 import EmployeeProvider from './no0_context/EmployeeContext'
 import UserProvider from './no0_context/UserContext'
+import TodoProvider from './no0_context/TodoContext'
 
 
 function App() {
   const [mobileMenu, setMobileMenu] = useState(false)
-  
+
 
   return (
     <BrowserRouter>
-      {/* {console.log(users)} */}
       <UserProvider>
-        <HeaderBar
-        />
+      <HeaderBar />
+        <Layout>
+          <SiderBar/>
+          <Content>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/" element={<HomePage />} />
+              <Route path="/todo" element={
+                <TodoProvider>
+                  <TodoPage />  
+                </TodoProvider>
+                } />
+              <Route path="/employee" element={
+                <EmployeeProvider>
+                  <EmployeePage />
+                </EmployeeProvider>
+              } />
+            </Routes>
+          </Content>
+        </Layout>
       </UserProvider>
 
-      <Layout>
 
-        <SiderBar
-        />
 
-        <Content>
-          <Routes>
-            <UserProvider>
-              <Route path="/login" element={<LoginPage/>} />
-              <Route path="/register" element={<RegisterPage/>} />
-            </UserProvider>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/todo" element={<TodoPage />} />
-            <Route path="/employee" element={
-              <EmployeeProvider>
-                <EmployeePage />
-              </EmployeeProvider>
-              } />
-          </Routes>
-        </Content>
-
-      </Layout>
 
     </BrowserRouter>
   )

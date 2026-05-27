@@ -1,4 +1,4 @@
-import React, {  useState } from 'react'
+import React, {  useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { UserContext } from '../../no0_context/UserContext'
@@ -7,8 +7,8 @@ import { UserContext } from '../../no0_context/UserContext'
 const initState = {username: "", password: ""}
 
 const LoginForm = () => {
-    const {dispatch} = useContext(initState)
-
+    const {state, dispatch} = useContext(UserContext)
+    const [user, setUser] = useState(initState)
     const navigate = useNavigate();
     const handleChange = (event) => {
         const {name,value} = event.target;
@@ -19,7 +19,7 @@ const LoginForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const loginUser = users.filter(item => (
+        const loginUser = state.users.filter(item => (
             item.username === user.username
          && item.password === user.password
         ))[0]
