@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components';
 import { EmployeeContext } from '../../no0_context/EmployeeContext';
+import { useDispatch } from 'react-redux';
+import { addEmp } from '../../no3_store/slices/employSlice';
 
 const initEmp = {
   id : '', name : '', email : '', job : '', pay : ''
@@ -9,8 +11,9 @@ const initEmp = {
 
 
 const EmployeeRegist = () => {
-    console.log(">>>>>>>>>>>>>")
-    const {dispatch} = useContext(EmployeeContext);
+
+    // const {dispatch} = useContext(EmployeeContext);
+    const dispatch = useDispatch();
 
     const [emp, setEmp] = useState(initEmp);
     const handleChange = (event) => {
@@ -21,13 +24,11 @@ const EmployeeRegist = () => {
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        // emp &&
-        // setState(prev => ({
-        //     ...prev, selectedId : prev.empTable[prev.empTable.length-1].id
-        // }))
+   
         
         const newId = Date.now().toString();
-        dispatch({type: 'register', payload:{newId, emp}})
+        dispatch(addEmp({newId, emp}))
+        // dispatch({type: 'register', payload:{newId, emp}})
         setEmp(initEmp)
     }
     return (

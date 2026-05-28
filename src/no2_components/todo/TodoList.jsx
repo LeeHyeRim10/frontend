@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import TodoListChild from './TodoListChild'
-import { TodoContext } from '../../no0_context/TodoContext'
+import { useSelector } from 'react-redux'
+// import { TodoContext } from '../../no0_context/TodoContext'
 
 
 const TodoList = () => {
 
-  const {state} = useContext(TodoContext);
-  const {todoList} = state;
+  // const {state} = useContext(TodoContext);
+  // const {todoList} = state;
+  const {todoList} = useSelector(state => state.todo);
 
   return (
     <div>

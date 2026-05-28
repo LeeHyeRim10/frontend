@@ -1,20 +1,23 @@
 import React, { useContext, useState } from 'react'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import { UserContext } from '../../no0_context/UserContext'
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../no3_store/slices/userSlice';
+// import { UserContext } from '../../no0_context/UserContext'
 
 const HeaderBar = () => {
 
-  const {state, dispatch} = useContext(UserContext);
+  // const {state, dispatch} = useContext(UserContext);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const {isLogin} = state ;
+  // const {isLogin} = state ;
   const navigate = useNavigate();
+  const {isLogin, username} = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
-    dispatch({type:"logout"})
-    // setLoginMD(prev => (
-    //   {...prev, isLogin: false, username: ''}
-    // ))
+    // dispatch({type:"logout"})
+    dispatch(logout())
+    
     alert("로그아웃 성공 ")
     navigate("/login")
   }
@@ -39,7 +42,7 @@ const HeaderBar = () => {
       <RightBox>
         {isLogin ? // true
           <div>
-            <HeaderButton>{state.username?.username}님</HeaderButton>  
+            <HeaderButton>{username}님</HeaderButton>  
             <HeaderButton onClick={handleLogout}>로그아웃</HeaderButton>  
           </div>
           : // false

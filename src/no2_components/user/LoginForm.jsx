@@ -1,15 +1,21 @@
 import React, {  useContext, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { UserContext } from '../../no0_context/UserContext'
+import { login } from '../../no3_store/slices/userSlice'
+// import { UserContext } from '../../no0_context/UserContext'
 
 
 const initState = {username: "", password: ""}
 
 const LoginForm = () => {
-    const {state, dispatch} = useContext(UserContext)
+    // const {state, dispatch} = useContext(UserContext)
+    const {users} = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
     const [user, setUser] = useState(initState)
     const navigate = useNavigate();
+
     const handleChange = (event) => {
         const {name,value} = event.target;
         setUser(prev => (
@@ -19,7 +25,7 @@ const LoginForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        const loginUser = state.users.filter(item => (
+        const loginUser = users.filter(item => (
             item.username === user.username
          && item.password === user.password
         ))[0]
@@ -27,10 +33,9 @@ const LoginForm = () => {
         if(loginUser) {
             alert(loginUser.username + "님 로그인 성공")
 
-            dispatch({type:"login", payload:loginUser})
-            // setLoginMD(prev=> (
-            //     {...prev, isLogin : true, username : loginUser.username}
-            // ))
+            // dispatch({type:"login", payload:loginUser})
+            dispatch(login(loginUser.username))
+
             navigate("/")
         }else {
             alert("아이디/비밀번호를 다시 입력해주세요")

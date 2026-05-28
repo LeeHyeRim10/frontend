@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { EmployeeContext } from '../../no0_context/EmployeeContext';
+// import { EmployeeContext } from '../../no0_context/EmployeeContext';
 
 const EmployeeTable = () => {
 
-    const {state} = useContext(EmployeeContext);
-    const {emp} = state;
-    //const {emp} = state ;
+    // const {state} = useContext(EmployeeContext);
+    // const {emp} = state;
+    const {emp} = useSelector(state => state.emp) ;
 
     return (
     <>

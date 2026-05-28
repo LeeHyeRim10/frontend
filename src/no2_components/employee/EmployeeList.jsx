@@ -1,26 +1,25 @@
-import React, { useContext } from 'react'
-import { EmployeeContext } from '../../no0_context/EmployeeContext'
-
+import React from 'react'
+// import { EmployeeContext } from '../../no0_context/EmployeeContext'
+import { useDispatch, useSelector } from 'react-redux';
+import { select } from '../../no3_store/slices/employSlice';
 
 const EmployeeList = () => {
 
-    // const {empTable, selectedId} = state;
-    const {state, dispatch} = useContext(EmployeeContext);
-    const {empTable, selectedId} = state ;
+    const { empTable } = useSelector(state => state.emp);
+    const dispatch = useDispatch();
 
-    const handleClick = (id) => {
-        dispatch({type: "select", payload: id})
-        // setState(prev => (
-        //     {...prev, selectedId: id}
-        // ))
-    }
-  return (
-    <div>
-        {empTable?.map(item => (
-            <button onClick={()=>handleClick(item.id)}>{item.name}</button>
-        ))}
-    </div>
-  )
+    return (
+        <div>
+            {empTable?.map(item => (
+                <button
+                    key={item.id}
+                    onClick={() => dispatch(select(item.id))}
+                >
+                    {item.name}
+                </button>
+            ))}
+        </div>
+    )
 }
 
 export default EmployeeList
